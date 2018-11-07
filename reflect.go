@@ -59,8 +59,8 @@ func getFieldInfos(rType reflect.Type, parentIndexChain []int) []fieldInfo {
 			continue
 		}
 		indexChain := append(parentIndexChain, i)
-		// if the field is a struct, create a fieldInfo for each of its fields
-		if field.Type.Kind() == reflect.Struct {
+		// if the field is a struct and not tagged as ignored, create a fieldInfo for each of its fields
+		if field.Type.Kind() == reflect.Struct && field.Tag.Get("csv") != "-" {
 			fieldsList = append(fieldsList, getFieldInfos(field.Type, indexChain)...)
 		}
 
